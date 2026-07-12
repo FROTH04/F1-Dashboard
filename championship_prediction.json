@@ -1,0 +1,377 @@
+{
+  "remaining_races": 13,
+  "simulations": 1000,
+  "context_applied": {
+    "team_updates": 41,
+    "driver_updates": 27
+  },
+  "driver_win_probability": {
+    "ANT": 1.4,
+    "RUS": 1.4,
+    "HAM": 77.6,
+    "LEC": 19.6,
+    "NOR": 0.0,
+    "PIA": 0.0,
+    "VER": 0.0,
+    "HAD": 0.0,
+    "GAS": 0.0,
+    "LAW": 0.0,
+    "LIN": 0.0,
+    "BEA": 0.0,
+    "COL": 0.0,
+    "BOR": 0.0,
+    "SAI": 0.0,
+    "ALB": 0.0,
+    "OCO": 0.0,
+    "ALO": 0.0,
+    "HUL": 0.0,
+    "BOT": 0.0,
+    "PER": 0.0,
+    "STR": 0.0
+  },
+  "constructor_win_probability": {
+    "Ferrari": 99.9,
+    "Mercedes": 0.1
+  },
+  "predicted_final_standings": [
+    {
+      "rank": 1,
+      "driver": "HAM",
+      "team": "Ferrari",
+      "current_pts": 147,
+      "predicted_pts": 400,
+      "pts_low": 371,
+      "pts_high": 428,
+      "win_prob": 77.6
+    },
+    {
+      "rank": 2,
+      "driver": "LEC",
+      "team": "Ferrari",
+      "current_pts": 108,
+      "predicted_pts": 369,
+      "pts_low": 338,
+      "pts_high": 395,
+      "win_prob": 19.6
+    },
+    {
+      "rank": 3,
+      "driver": "RUS",
+      "team": "Mercedes",
+      "current_pts": 154,
+      "predicted_pts": 336,
+      "pts_low": 307,
+      "pts_high": 364,
+      "win_prob": 1.4
+    },
+    {
+      "rank": 4,
+      "driver": "ANT",
+      "team": "Mercedes",
+      "current_pts": 179,
+      "predicted_pts": 294,
+      "pts_low": 234,
+      "pts_high": 360,
+      "win_prob": 1.4
+    },
+    {
+      "rank": 5,
+      "driver": "NOR",
+      "team": "McLaren",
+      "current_pts": 97,
+      "predicted_pts": 240,
+      "pts_low": 215,
+      "pts_high": 266,
+      "win_prob": 0.0
+    },
+    {
+      "rank": 6,
+      "driver": "PIA",
+      "team": "McLaren",
+      "current_pts": 82,
+      "predicted_pts": 219,
+      "pts_low": 195,
+      "pts_high": 245,
+      "win_prob": 0.0
+    },
+    {
+      "rank": 7,
+      "driver": "HAD",
+      "team": "Red Bull",
+      "current_pts": 52,
+      "predicted_pts": 140,
+      "pts_low": 122,
+      "pts_high": 162,
+      "win_prob": 0.0
+    },
+    {
+      "rank": 8,
+      "driver": "VER",
+      "team": "Red Bull",
+      "current_pts": 76,
+      "predicted_pts": 120,
+      "pts_low": 86,
+      "pts_high": 157,
+      "win_prob": 0.0
+    },
+    {
+      "rank": 9,
+      "driver": "GAS",
+      "team": "Alpine",
+      "current_pts": 42,
+      "predicted_pts": 58,
+      "pts_low": 47,
+      "pts_high": 74,
+      "win_prob": 0.0
+    },
+    {
+      "rank": 10,
+      "driver": "LAW",
+      "team": "Racing Bulls",
+      "current_pts": 39,
+      "predicted_pts": 47,
+      "pts_low": 40,
+      "pts_high": 66,
+      "win_prob": 0.0
+    },
+    {
+      "rank": 11,
+      "driver": "BEA",
+      "team": "Haas",
+      "current_pts": 18,
+      "predicted_pts": 22,
+      "pts_low": 18,
+      "pts_high": 36,
+      "win_prob": 0.0
+    },
+    {
+      "rank": 12,
+      "driver": "COL",
+      "team": "Alpine",
+      "current_pts": 18,
+      "predicted_pts": 22,
+      "pts_low": 18,
+      "pts_high": 38,
+      "win_prob": 0.0
+    },
+    {
+      "rank": 13,
+      "driver": "LIN",
+      "team": "Racing Bulls",
+      "current_pts": 20,
+      "predicted_pts": 20,
+      "pts_low": 20,
+      "pts_high": 23,
+      "win_prob": 0.0
+    },
+    {
+      "rank": 14,
+      "driver": "SAI",
+      "team": "Williams",
+      "current_pts": 6,
+      "predicted_pts": 16,
+      "pts_low": 6,
+      "pts_high": 35,
+      "win_prob": 0.0
+    },
+    {
+      "rank": 15,
+      "driver": "ALB",
+      "team": "Williams",
+      "current_pts": 5,
+      "predicted_pts": 16,
+      "pts_low": 6,
+      "pts_high": 35,
+      "win_prob": 0.0
+    },
+    {
+      "rank": 16,
+      "driver": "BOR",
+      "team": "Audi",
+      "current_pts": 6,
+      "predicted_pts": 6,
+      "pts_low": 6,
+      "pts_high": 13,
+      "win_prob": 0.0
+    },
+    {
+      "rank": 17,
+      "driver": "OCO",
+      "team": "Haas",
+      "current_pts": 3,
+      "predicted_pts": 3,
+      "pts_low": 3,
+      "pts_high": 6,
+      "win_prob": 0.0
+    },
+    {
+      "rank": 18,
+      "driver": "HUL",
+      "team": "Audi",
+      "current_pts": 0,
+      "predicted_pts": 3,
+      "pts_low": 0,
+      "pts_high": 18,
+      "win_prob": 0.0
+    },
+    {
+      "rank": 19,
+      "driver": "ALO",
+      "team": "Aston Martin",
+      "current_pts": 1,
+      "predicted_pts": 1,
+      "pts_low": 1,
+      "pts_high": 7,
+      "win_prob": 0.0
+    },
+    {
+      "rank": 20,
+      "driver": "BOT",
+      "team": "Cadillac",
+      "current_pts": 0,
+      "predicted_pts": 0,
+      "pts_low": 0,
+      "pts_high": 2,
+      "win_prob": 0.0
+    },
+    {
+      "rank": 21,
+      "driver": "PER",
+      "team": "Cadillac",
+      "current_pts": 0,
+      "predicted_pts": 0,
+      "pts_low": 0,
+      "pts_high": 10,
+      "win_prob": 0.0
+    },
+    {
+      "rank": 22,
+      "driver": "STR",
+      "team": "Aston Martin",
+      "current_pts": 0,
+      "predicted_pts": 0,
+      "pts_low": 0,
+      "pts_high": 2,
+      "win_prob": 0.0
+    }
+  ],
+  "remaining_races_detail": [
+    {
+      "round": 10,
+      "name": "Belgian GP",
+      "circuit": "Spa-Francorchamps",
+      "date": "2026-07-19",
+      "power": 0.88,
+      "downforce": 0.5,
+      "type": 0
+    },
+    {
+      "round": 11,
+      "name": "Hungarian GP",
+      "circuit": "Budapest",
+      "date": "2026-07-26",
+      "power": 0.3,
+      "downforce": 0.92,
+      "type": 2
+    },
+    {
+      "round": 12,
+      "name": "Dutch GP",
+      "circuit": "Zandvoort",
+      "date": "2026-08-23",
+      "power": 0.45,
+      "downforce": 0.88,
+      "type": 2
+    },
+    {
+      "round": 13,
+      "name": "Italian GP",
+      "circuit": "Monza",
+      "date": "2026-09-06",
+      "power": 0.95,
+      "downforce": 0.2,
+      "type": 0
+    },
+    {
+      "round": 14,
+      "name": "Spanish GP",
+      "circuit": "Madrid",
+      "date": "2026-09-13",
+      "power": 0.6,
+      "downforce": 0.75,
+      "type": 3
+    },
+    {
+      "round": 15,
+      "name": "Azerbaijan GP",
+      "circuit": "Baku",
+      "date": "2026-09-27",
+      "power": 0.85,
+      "downforce": 0.45,
+      "type": 3
+    },
+    {
+      "round": 16,
+      "name": "Singapore GP",
+      "circuit": "Marina Bay",
+      "date": "2026-10-11",
+      "power": 0.35,
+      "downforce": 0.9,
+      "type": 3
+    },
+    {
+      "round": 17,
+      "name": "US GP",
+      "circuit": "Austin",
+      "date": "2026-10-25",
+      "power": 0.68,
+      "downforce": 0.72,
+      "type": 1
+    },
+    {
+      "round": 18,
+      "name": "Mexico City GP",
+      "circuit": "Mexico City",
+      "date": "2026-11-01",
+      "power": 0.78,
+      "downforce": 0.55,
+      "type": 0
+    },
+    {
+      "round": 19,
+      "name": "São Paulo GP",
+      "circuit": "São Paulo",
+      "date": "2026-11-08",
+      "power": 0.65,
+      "downforce": 0.7,
+      "type": 1
+    },
+    {
+      "round": 20,
+      "name": "Las Vegas GP",
+      "circuit": "Las Vegas",
+      "date": "2026-11-21",
+      "power": 0.9,
+      "downforce": 0.35,
+      "type": 3
+    },
+    {
+      "round": 21,
+      "name": "Qatar GP",
+      "circuit": "Doha",
+      "date": "2026-11-29",
+      "power": 0.55,
+      "downforce": 0.8,
+      "type": 2
+    },
+    {
+      "round": 22,
+      "name": "Abu Dhabi GP",
+      "circuit": "Yas Island",
+      "date": "2026-12-06",
+      "power": 0.65,
+      "downforce": 0.68,
+      "type": 1
+    }
+  ]
+}

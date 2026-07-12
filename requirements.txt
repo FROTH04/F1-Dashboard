@@ -1,0 +1,24 @@
+# F1 Race Outcome ML — Requirements
+# Install with: pip install -r requirements.txt
+#
+# Core ML
+numpy>=1.24
+pandas>=2.0
+scikit-learn>=1.3
+xgboost>=2.0
+shap>=0.44
+
+# Deep Learning (optional — LSTM will use NumPy fallback if not installed)
+# Uncomment for full PyTorch LSTM support:
+# torch>=2.0
+
+# F1 Data
+fastf1>=3.3
+
+# Dashboard
+dash>=2.14
+dash-bootstrap-components>=1.5
+plotly>=5.17
+
+# Utilities
+matplotlib>=3.7

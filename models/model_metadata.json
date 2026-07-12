@@ -1,0 +1,38 @@
+{
+  "feature_names": [
+    "round",
+    "track_power_sensitivity",
+    "track_downforce_sensitivity",
+    "track_type_encoded",
+    "engine_rating",
+    "chassis_rating",
+    "track_performance_score",
+    "pace_adjusted_form",
+    "momentum_score",
+    "pace_delta_s1",
+    "pace_delta_s2",
+    "pace_delta_s3",
+    "rolling_dnf_rate",
+    "consecutive_dnf_flag",
+    "reliability_concern_score",
+    "cumulative_points",
+    "driver_experience",
+    "championship_position"
+  ],
+  "trained_on": "synthetic_demo",
+  "season": 2026,
+  "n_drivers": 22,
+  "rounds_trained": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "rounds_test": [
+    9
+  ]
+}
