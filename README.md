@@ -140,15 +140,6 @@ python f1_dashboard.py
 
 ---
 
-## References
-
-- Montavon, G. et al. (2019). *Layer-wise relevance propagation: An overview.* Explainable AI. Springer.
-- Lundberg, S. & Lee, S.I. (2017). *A unified approach to interpreting model predictions.* NeurIPS.
-- Breiman, L. (2001). *Random Forests.* Machine Learning 45(1).
-- Chen, T. & Guestrin, C. (2016). *XGBoost: A Scalable Tree Boosting System.* KDD.
-
----
-
 ## License
 
 MIT License — see `LICENSE` file.
