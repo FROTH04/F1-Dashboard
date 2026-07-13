@@ -1220,7 +1220,7 @@ def build_car(rd, d1, d2, year, round_num, **kwargs):
     ])
 
 def build_energy(rd, d1, d2, year, round_num, **kwargs):
-    total_laps = rd.get('laps', 52)
+    total_laps = rd.get('laps') or 52
     laps = list(range(1, total_laps+1))
     c1, c2 = dc(d1), dc(d2)
 
@@ -1273,7 +1273,7 @@ def build_energy(rd, d1, d2, year, round_num, **kwargs):
 def build_strategy(rd, d1, d2, year, round_num, **kwargs):
     results = rd.get('results',[])
     lap_times = rd.get('lap_times',{})
-    total_laps = rd.get('laps',52)
+    total_laps = rd.get('laps') or 52
     TCOL = {'S':'#ff3333','M':'#ffcc00','H':'#cccccc','I':'#22aaff','W':'#0088ff'}
 
     def parse_strat(s, total):
@@ -1343,7 +1343,7 @@ def build_strategy(rd, d1, d2, year, round_num, **kwargs):
 
 def build_track(rd, d1, d2, year, round_num, **kwargs):
     results = rd.get('results',[])
-    total_laps = rd.get('laps',52)
+    total_laps = rd.get('laps') or 52
 
     sess = load_session(year, round_num, 'R')
     segments, dist_vals, dom_colors = 40, [], []
@@ -1388,7 +1388,7 @@ def build_track(rd, d1, d2, year, round_num, **kwargs):
     race_laps = list(range(1,total_laps+1))
     fig_pos = go.Figure()
     for r in results[:6]:
-        code, final = r['code'], r['position']
+        code, final = r['code'], r['position'] or 20
         rng = np.random.RandomState(hash(code)%2**31)
         start = rng.randint(1,8)
         pos = [start]
@@ -1847,10 +1847,23 @@ TRACK_DATA = {
     "drs_svg":["M 88,50 L 213,50","M 40,208 L 40,85"]
   },
 }
+
+# Bahrain (was R4) and Saudi Arabia (was R5) cancelled — remove and renumber
+_CANCELLED_ROUNDS = {4, 5}
+_renumbered = {}
+_new_r = 1
+for _old_r in sorted(TRACK_DATA.keys()):
+    if _old_r not in _CANCELLED_ROUNDS:
+        _e = dict(TRACK_DATA[_old_r])
+        _e["round"] = _new_r
+        _renumbered[_new_r] = _e
+        _new_r += 1
+TRACK_DATA = _renumbered
+
 CALENDAR_BY_ROUND = TRACK_DATA
 
 # ── Dummy first entry placeholder (for fallback compatibility) ─────────────────
-_TRACK_FALLBACK = TRACK_DATA[12]  # Belgian GP as default
+_TRACK_FALLBACK = TRACK_DATA[10]  # Belgian GP is now R10
 
 RACE_CALENDAR_2026 = list(TRACK_DATA.values())  # kept for any legacy references
 
@@ -1930,42 +1943,77 @@ _LEGACY_PLACEHOLDER = {
 }  # end _LEGACY_PLACEHOLDER
 
 
+_TRACK_SVG_FILES = {
+    1:  "australia.svg",
+    2:  "china.svg",
+    3:  "japan.svg",
+    4:  "miami.svg",
+    5:  "canada.svg",
+    6:  "monaco.svg",
+    7:  "barcelona.svg",
+    8:  "austria.svg",
+    9:  "britain.svg",
+    10: "belgium.svg",
+    11: "hungary.svg",
+    12: "netherlands.svg",
+    13: "monza.svg",
+    14: "madrid.svg",
+    15: "baku.svg",
+    16: "singapore.svg",
+    17: "austin.svg",
+    18: "mexico.svg",
+    19: "brazil.svg",
+    20: "lasvegas.svg",
+    21: "qatar.svg",
+    22: "abudhabi.svg",
+}
+
+_ASSETS_TRACKS = Path(__file__).resolve().parent / "assets" / "tracks"
+
 def make_track_svg(round_num):
-    """Render real circuit SVG from TRACK_DATA using per-circuit path + sector markers."""
-    data = TRACK_DATA.get(round_num, TRACK_DATA[12])
+    """Return srcDoc HTML for a track layout iframe using real SVG files where available."""
+    fname = _TRACK_SVG_FILES.get(round_num)
+    if fname:
+        svg_file = _ASSETS_TRACKS / fname
+        if svg_file.exists():
+            svg_content = svg_file.read_text(encoding="utf-8")
+            # Wrap in minimal dark page so the iframe background matches the dashboard
+            return (
+                f'<html><body style="margin:0;padding:0;background:#0d0d0d;display:flex;'
+                f'align-items:center;justify-content:center;width:260px;height:260px;">'
+                f'<div style="width:240px;height:240px;display:flex;align-items:center;justify-content:center;">'
+                f'{svg_content}'
+                f'</div></body></html>'
+            )
+
+    # Fallback: hand-drawn SVG path for tracks without a real layout file
+    data = TRACK_DATA.get(round_num, _TRACK_FALLBACK)
     svg_path = data["svg_path"]
     sector_markers = data["sector_markers"]
     drs_segs = data.get("drs_svg", [])
-
-    drs_paths = ""
-    for seg in drs_segs:
-        drs_paths += (f'<path d="{seg}" fill="none" stroke="#2D5BFF" stroke-width="2.5"'
-                      f' stroke-dasharray="6 4" stroke-linecap="round" opacity="0.7"/>')
-
-    sector_dots = ""
+    drs_paths = "".join(
+        f'<path d="{s}" fill="none" stroke="#2D5BFF" stroke-width="2.5"'
+        f' stroke-dasharray="6 4" stroke-linecap="round" opacity="0.7"/>'
+        for s in drs_segs
+    )
     colors = ["#FFB800", "#00FF94", "#A855F7"]
-    labels = ["S1", "S2", "S3"]
-    for sm, col, lbl in zip(sector_markers, colors, labels):
-        sector_dots += (
-            f'<circle cx="{sm["x"]}" cy="{sm["y"]}" r="5" fill="{col}" opacity="0.9"/>'
-            f'<text x="{sm["x"]+8}" y="{sm["y"]+4}" fill="{col}" font-size="9"'
-            f' font-family="JetBrains Mono,monospace" opacity="0.8">{lbl}</text>'
-        )
-
+    sector_dots = "".join(
+        f'<circle cx="{sm["x"]}" cy="{sm["y"]}" r="5" fill="{col}" opacity="0.9"/>'
+        f'<text x="{sm["x"]+8}" y="{sm["y"]+4}" fill="{col}" font-size="9"'
+        f' font-family="JetBrains Mono,monospace" opacity="0.8">{lbl}</text>'
+        for sm, col, lbl in zip(sector_markers, colors, ["S1","S2","S3"])
+    )
     circuit_name = data.get("circuit", "")
-    return (f'<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg"'
-            f' style="width:100%;max-width:280px;">'
-            f'<rect width="300" height="300" fill="#0a0a0a" rx="12"/>'
-            f'<path d="{svg_path}" fill="none" stroke="#ffb4a7" stroke-width="3.5"'
-            f' stroke-linecap="round" stroke-linejoin="round" opacity="0.9"'
-            f' style="filter:drop-shadow(0 0 6px rgba(255,180,167,0.4))"/>'
-            f'{drs_paths}'
-            f'{sector_dots}'
-            f'<line x1="149" y1="35" x2="149" y2="55" stroke="white"'
-            f' stroke-width="2" opacity="0.6"/>'
-            f'<text x="150" y="295" text-anchor="middle" fill="#5a5a6a"'
-            f' font-size="9" font-family="JetBrains Mono,monospace">{circuit_name.upper()}</text>'
-            f'</svg>')
+    svg = (f'<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:280px;">'
+           f'<rect width="300" height="300" fill="#0a0a0a" rx="12"/>'
+           f'<path d="{svg_path}" fill="none" stroke="#ffb4a7" stroke-width="3.5"'
+           f' stroke-linecap="round" stroke-linejoin="round" opacity="0.9"'
+           f' style="filter:drop-shadow(0 0 6px rgba(255,180,167,0.4))"/>'
+           f'{drs_paths}{sector_dots}'
+           f'<text x="150" y="295" text-anchor="middle" fill="#5a5a6a"'
+           f' font-size="9" font-family="JetBrains Mono,monospace">{circuit_name.upper()}</text>'
+           f'</svg>')
+    return f'<html><body style="margin:0;background:#0d0d0d;">{svg}</body></html>'
 
 
 def build_track_dna_panel(round_num, race):
@@ -2193,7 +2241,7 @@ def build_predictions(rd, d1, d2, year, round_num, **kwargs):
                 ]),
             ], style={"display":"flex","gap":"12px","alignItems":"center"}),
             html.Div([
-                html.Span("11 races completed · 13 remaining", style={
+                html.Span(f"{sum(1 for r in TRACK_DATA.values() if r['completed'])} races completed · {sum(1 for r in TRACK_DATA.values() if not r['completed'])} remaining", style={
                     "fontFamily":"'JetBrains Mono',monospace",
                     "fontSize":"10px","color":"rgba(255,255,255,0.25)",
                 }),
@@ -2215,10 +2263,10 @@ def build_predictions(rd, d1, d2, year, round_num, **kwargs):
                 className="dark-dropdown",
                 style={"fontFamily":"'JetBrains Mono',monospace","fontSize":"11px"},
             ),
-        ], style=_CARD),
+        ], style={**_CARD, "position":"relative", "zIndex":1000}),
 
         # ── Track info panel (filled by callback) ────────────────────────────
-        html.Div(id="pred-track-panel"),
+        html.Div(id="pred-track-panel", style={"position":"relative","zIndex":1}),
 
         # ── Run prediction button (predictions also refresh on race change) ──
         html.Div([
