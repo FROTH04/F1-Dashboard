@@ -1943,77 +1943,41 @@ _LEGACY_PLACEHOLDER = {
 }  # end _LEGACY_PLACEHOLDER
 
 
-_TRACK_SVG_FILES = {
-    1:  "australia.svg",
-    2:  "china.svg",
-    3:  "japan.svg",
-    4:  "miami.svg",
-    5:  "canada.svg",
-    6:  "monaco.svg",
-    7:  "barcelona.svg",
-    8:  "austria.svg",
-    9:  "britain.svg",
-    10: "belgium.svg",
-    11: "hungary.svg",
-    12: "netherlands.svg",
-    13: "monza.svg",
-    14: "madrid.svg",
-    15: "baku.svg",
-    16: "singapore.svg",
-    17: "austin.svg",
-    18: "mexico.svg",
-    19: "brazil.svg",
-    20: "lasvegas.svg",
-    21: "qatar.svg",
-    22: "abudhabi.svg",
+_TRACK_IMAGE_FILES = {
+    1:  "r1_track.png",
+    2:  "r2_track.png",
+    3:  "r3_track.png",
+    4:  "r4_track.png",
+    5:  "r5_track.png",
+    6:  "r6_track.png",
+    7:  "r7_track.png",
+    8:  "r8_track.png",
+    9:  "r9_track.png",
+    10: "r10_track.png",
+    11: "r11_track.png",
+    12: "r12_track.png",
+    13: "r13_track.png",
+    14: "r14_track.png",
+    15: "r15_track.png",
+    16: "r16_track.png",
+    17: "r17_track.png",
+    18: "r18_track.png",
+    19: "r19_track.png",
+    20: "r20_track.png",
+    21: "r21_track.png",
+    22: "r22_track.png",
 }
 
 _ASSETS_TRACKS = Path(__file__).resolve().parent / "assets" / "tracks"
 
 def make_track_svg(round_num):
-    """Return srcDoc HTML for a track layout iframe using real SVG files where available."""
-    fname = _TRACK_SVG_FILES.get(round_num)
+    """Return the /assets/ URL for the track PNG, or None if not available."""
+    fname = _TRACK_IMAGE_FILES.get(round_num)
     if fname:
-        svg_file = _ASSETS_TRACKS / fname
-        if svg_file.exists():
-            svg_content = svg_file.read_text(encoding="utf-8")
-            # Wrap in minimal dark page so the iframe background matches the dashboard
-            return (
-                f'<html><body style="margin:0;padding:0;background:#0d0d0d;display:flex;'
-                f'align-items:center;justify-content:center;width:260px;height:260px;">'
-                f'<div style="width:240px;height:240px;display:flex;align-items:center;justify-content:center;">'
-                f'{svg_content}'
-                f'</div></body></html>'
-            )
-
-    # Fallback: hand-drawn SVG path for tracks without a real layout file
-    data = TRACK_DATA.get(round_num, _TRACK_FALLBACK)
-    svg_path = data["svg_path"]
-    sector_markers = data["sector_markers"]
-    drs_segs = data.get("drs_svg", [])
-    drs_paths = "".join(
-        f'<path d="{s}" fill="none" stroke="#2D5BFF" stroke-width="2.5"'
-        f' stroke-dasharray="6 4" stroke-linecap="round" opacity="0.7"/>'
-        for s in drs_segs
-    )
-    colors = ["#FFB800", "#00FF94", "#A855F7"]
-    sector_dots = "".join(
-        f'<circle cx="{sm["x"]}" cy="{sm["y"]}" r="5" fill="{col}" opacity="0.9"/>'
-        f'<text x="{sm["x"]+8}" y="{sm["y"]+4}" fill="{col}" font-size="9"'
-        f' font-family="JetBrains Mono,monospace" opacity="0.8">{lbl}</text>'
-        for sm, col, lbl in zip(sector_markers, colors, ["S1","S2","S3"])
-    )
-    circuit_name = data.get("circuit", "")
-    svg = (f'<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:280px;">'
-           f'<rect width="300" height="300" fill="#0a0a0a" rx="12"/>'
-           f'<path d="{svg_path}" fill="none" stroke="#ffb4a7" stroke-width="3.5"'
-           f' stroke-linecap="round" stroke-linejoin="round" opacity="0.9"'
-           f' style="filter:drop-shadow(0 0 6px rgba(255,180,167,0.4))"/>'
-           f'{drs_paths}{sector_dots}'
-           f'<text x="150" y="295" text-anchor="middle" fill="#5a5a6a"'
-           f' font-size="9" font-family="JetBrains Mono,monospace">{circuit_name.upper()}</text>'
-           f'</svg>')
-    return f'<html><body style="margin:0;background:#0d0d0d;">{svg}</body></html>'
+        png_file = _ASSETS_TRACKS / fname
+        if png_file.exists():
+            return f"/assets/tracks/{fname}"
+    return None
 
 
 def build_track_dna_panel(round_num, race):
@@ -2303,7 +2267,7 @@ def update_track_panel(round_num):
         round_num = 12
     race = CALENDAR_BY_ROUND.get(round_num, _TRACK_FALLBACK)
 
-    svg_html = make_track_svg(round_num)
+    track_img_url = make_track_svg(round_num)
 
     completed = race.get("completed", False)
     status_label = "COMPLETED" if completed else "UPCOMING"
@@ -2338,13 +2302,16 @@ def update_track_panel(round_num):
     return html.Div([
         html.Div([
             html.Div([
-                # Left: SVG track
+                # Left: track image
                 html.Div([
-                    html.Div(html.Iframe(
-                        srcDoc=svg_html,
-                        style={"width":"260px","height":"260px","border":"none","background":"transparent"},
-                    ), style={"textAlign":"center"}),
-                ], style={"minWidth":"260px"}),
+                    html.Div(
+                        html.Img(
+                            src=track_img_url,
+                            style={"width":"300px","height":"300px","objectFit":"contain","borderRadius":"8px","background":"#0d0d0d","display":"block"},
+                        ) if track_img_url else html.Div("No track image", style={"width":"300px","height":"300px","background":"#0d0d0d","borderRadius":"8px","display":"flex","alignItems":"center","justifyContent":"center","color":"rgba(255,255,255,0.2)","fontSize":"12px"}),
+                        style={"textAlign":"center"},
+                    ),
+                ], style={"minWidth":"300px"}),
 
                 # Middle: Race info
                 html.Div([
