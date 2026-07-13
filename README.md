@@ -1,7 +1,6 @@
 # F1 Race Outcome Prediction — ML Project 2026
 
 **THM Machine Learning Course Project**
-*Supervised by Prof. Nils Gumpfer (XAI Research, Explainable AI for Time Series)*
 
 A full machine-learning pipeline that predicts Formula 1 race outcomes and championship standings for the 2026 season, with a strong focus on **Explainable AI (XAI)** — including SHAP for tree-based models and **LRP-SIGN for LSTM time series** (the professor's research specialty).
 
